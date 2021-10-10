@@ -27,7 +27,7 @@ session_start();
             <div class="col">
             </div>
             <div class="col">
-<!--                 <?php
+                <?php
                     if(isset($_SESSION['nao_autenticado'])):
                 ?>
                 <div class="alert alert-danger">
@@ -36,7 +36,7 @@ session_start();
                 <?php
                     endif;
                     unset($_SESSION['nao_autenticado']);
-                ?> -->
+                ?>
 
                 <form action="login.php" method="POST">
                     <div class="form-group">
@@ -45,7 +45,7 @@ session_start();
                     </div>
                     <div class="form-group">
                         Senha: <i class="fa fa-senha"></i>
-                        <input type="password" class="form-control" type="senha" name="senha" required>
+                        <input type="password" class="form-control"  name="senha" required>
                     </div>
                     <div class="form-group">
                         

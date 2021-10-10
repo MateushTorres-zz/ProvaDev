@@ -13,6 +13,8 @@ class Manager extends Conexao{
             $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
+
+        $this->insertLog('Insert User'. implode(',',$data));
     }
 
     public function listUser($table)
@@ -21,6 +23,8 @@ class Manager extends Conexao{
         $sql = "SELECT * FROM $table  ORDER BY nome ASC";
         $statement = $pdo->query($sql);
         $statement->execute();
+
+        $this->insertLog('List User');
 
         return $statement->fetchAll();
     }
@@ -39,6 +43,9 @@ class Manager extends Conexao{
             $stmt->bindValue(":$k", $v, PDO::PARAM_STR);
         }
         $stmt->execute();
+
+        $this->insertLog('Update User'. implode(',',$data));
+
     }
 
     public function getInfo($table, $id)
@@ -49,6 +56,8 @@ class Manager extends Conexao{
         $stmt->bindValue(":id", $id);
         $stmt->execute();
 
+        $this->insertLog('Get Info');
+
         return $stmt->fetchAll();
     }
 
@@ -57,6 +66,24 @@ class Manager extends Conexao{
         $sql = "DELETE FROM $table WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(":id", $id);
+        $stmt->execute();
+
+        $this->insertLog('Insert User' . $id);
+
+    }
+
+    public function insertLog($operation){
+        
+        session_start();
+        $usuarioLogado = $_SESSION['cpf'];
+        $today = date("Y-m-d H:i:s");
+
+        $pdo = parent::get_instance();
+        $sql = "INSERT INTO LOG (USUARIO, DATA, OPERACAO) VALUES (:usu, :data, :oper)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":usu", $usuarioLogado);
+        $stmt->bindValue(":data", $today);
+        $stmt->bindValue(":oper", $operation);
         $stmt->execute();
     }
 }

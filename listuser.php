@@ -3,7 +3,9 @@ include_once 'model/Conexao.php';
 include_once 'model/Manager.php';
 include_once 'public/helper.php';
 
+session_start();
 $manager = new Manager();
+$usuarioLogado = $_SESSION['cpf'];
 
 ?>
 <!DOCTYPE html>
@@ -12,6 +14,7 @@ $manager = new Manager();
     <?php include_once 'public/dependencias.php' ?>
 </head>
 <body>
+    <script><?= $usuarioLogado; ?></script>
 <div class="container">
 
     <h2 class="text-center">
@@ -47,7 +50,11 @@ $manager = new Manager();
                     <td><?= formatDate($c['dtnascimento']); ?></td>
                     <td><?= $c['Endereco']; ?></td>
                     <td><?= $c['Telefone']; ?></td>
-                    <td><?= $c['Certificado']; ?></td>
+                    <td>
+
+                    <?=(strcmp($usuarioLogado, $c['cpf']) == 0? $c['Certificado']: '') ?>
+                    
+                    </td>
                     <td>
                         <form method="POST" action="views/page_update.php">
                             <input type="hidden" name="id" value="<?= $c['id']?>">
